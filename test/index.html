@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
+    <title>IT教育网</title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .component {
+            width: 40%;
+            height: 10%;
+            margin-bottom: 20px;
+            background-color: #ccc;
+            font-size: 20px;
+            display: none;
+        }
+    </style>
+
+    <script type="text/javascript" src="../js/lib/jquery.js"></script>
+    <script type="text/javascript" src="../js/lib/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="../js/lib/jquery.fullPage.js"></script>
+
+    <script type="text/javascript">
+
+        $(function () {
+            $('#h5').fullpage({
+                //切换背景
+                'sectionsColor': ['#254575', '#00FF00', '#ccc', '#666'],
+                //切换离开
+                onLeave: function (index, nextIndex, direction) {
+                    $('#h5').find('.page').eq(index - 1).trigger('onLeave')
+                },
+                afterLoad: function (anchorLink, index) {
+                    $('#h5').find('.page').eq(index - 1).trigger('onLoad')
+                }
+            });
+
+            $('.page').on('onLeave', function () {
+                console.log($(this).attr('id'), '==>>', 'onLeave');
+                $(this).find('.component').trigger('onLeave');
+            });
+            $('.page').on('onLoad', function () {
+                console.log($(this).attr('id'), '==>>', 'onLoad');
+                $(this).find('.component').trigger('onLoad');
+            })
+            $('.component').on('onLoad', function () {
+                $(this).fadeIn();
+                return false;
+            })
+            $('.component').on('onLeave', function () {
+                $(this).fadeOut();
+                return false;
+            })
+        })
+    </script>
+</head>
+<body>
+<div id="h5">
+    <div class="page section" id="page-1">
+        <div class="component logo">logo</div>
+        <div class="component desc">de</div>
+    </div>
+    <div class="page section" id="page-2">
+        <div class="component logo">内容更</div>
+    </div>
+    <div class="page section" id="page-3">
+        <div class="component logo">logo形状</div>
+    </div>
+    <div class="page section" id="page-4">
+        <div class="component logo">logo柱状图</div>
+    </div>
+</div>
+
+</body>
+</html>
